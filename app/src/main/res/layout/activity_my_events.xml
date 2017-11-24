@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
+            android:id="@+id/map2"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -21,12 +21,12 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/list1"
+            app:layout_constraintBottom_toTopOf="@+id/list"
             android:layout_weight="2"
             tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
         <ListView
-            android:id="@id/list1"
+            android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>

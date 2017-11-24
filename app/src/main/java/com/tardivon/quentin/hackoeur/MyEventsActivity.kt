@@ -21,7 +21,7 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
         setContentView(R.layout.activity_my_events)
         val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, arr);
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map2) as SupportMapFragment
         mapFragment.getMapAsync(this)
         val lv = findViewById<ListView>(R.id.list1) as ListView
         lv.adapter = adapter
