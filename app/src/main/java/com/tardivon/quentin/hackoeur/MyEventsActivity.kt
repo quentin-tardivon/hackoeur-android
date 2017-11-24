@@ -15,6 +15,7 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
     val arr = arrayOf("test","test2","test3","test4");
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_events)
@@ -23,7 +24,7 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         val lv = findViewById<ListView>(R.id.list1) as ListView
-        lv.adapter = adapter;
+        lv.adapter = adapter
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

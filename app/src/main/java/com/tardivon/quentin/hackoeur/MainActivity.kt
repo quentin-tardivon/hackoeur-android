@@ -3,6 +3,7 @@ package com.tardivon.quentin.hackoeur
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -18,13 +19,14 @@ class MainActivity : AppCompatActivity() {
         if (fbUser == null) {
             startActivity(Intent(this, SignInActivity::class.java))
         } else {
-            var userName = fbUser!!.displayName
-
-            if (fbUser!!.photoUrl != null) {
-                var photoUrl = fbUser!!.photoUrl.toString()
-            }
+            startActivity(Intent(this, MyEventsActivity::class.java))
         }
 
+    }
+
+    fun signOut(view: View) {
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(this, SignInActivity::class.java))
     }
 
 }

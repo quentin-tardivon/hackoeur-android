@@ -8,7 +8,6 @@ import android.view.View
 import com.google.android.gms.auth.api.Auth
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.*
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.AuthResult
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.GoogleAuthProvider
