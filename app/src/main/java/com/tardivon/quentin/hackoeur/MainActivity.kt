@@ -4,8 +4,13 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
+import android.view.MenuInflater
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +30,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, MyEventsActivity::class.java))
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.nav, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            R.id.eventList-> startActivity(Intent(this, EventListActivity::class.java))
+            R.id.myEvents -> startActivity(Intent(this, MyEventsActivity::class.java))
+        }
+        return true
     }
 
     fun signOut(view: View) {
