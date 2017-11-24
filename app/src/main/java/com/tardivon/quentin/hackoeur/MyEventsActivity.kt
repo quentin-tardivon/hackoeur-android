@@ -23,7 +23,7 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map2) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        val lv = findViewById<ListView>(R.id.list1) as ListView
+        val lv = findViewById<ListView>(R.id.list) as ListView
         lv.adapter = adapter
     }
 
