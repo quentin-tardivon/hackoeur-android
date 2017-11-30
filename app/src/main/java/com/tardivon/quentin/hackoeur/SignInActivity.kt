@@ -59,7 +59,7 @@ class SignInActivity : AppCompatActivity() {
                         Toast.makeText(this@SignInActivity, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                     } else {
-                        startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                        startActivity(Intent(this@SignInActivity, EventListActivity::class.java))
                         finish()
                     }
                 })
