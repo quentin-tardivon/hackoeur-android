@@ -13,26 +13,33 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
-    val arr = arrayOf("test","test2","test3","test4");
-
-
+    val title = arrayOf("test","test2","test3","test4");
+    val picture = arrayOf(R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background);
+    val lat = arrayOf(53.346760,53.347349,53.334999,53.344364)
+    val long = arrayOf(-6.2287331,-6.2390542,-6.2285614,-6.2389684)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_events)
-        val adapter = ArrayAdapter<Any>(this, android.R.layout.simple_list_item_1, arr);
+        //val adapter = MyEventsAdapter(this,title,picture,lat,long)
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map2) as SupportMapFragment
+                .findFragmentById(R.id.MyEventMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        val lv = findViewById<ListView>(R.id.list) as ListView
-        lv.adapter = adapter
+        //val lv = findViewById<ListView>(R.id.list1) as ListView;
+        //lv.adapter = adapter;
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        for(i in lat.indices) {
+            val sydney = LatLng(lat[i], long[i])
+            mMap.addMarker(MarkerOptions().position(sydney).title(title[i]))
+        }
+        val sydney = LatLng(53.348, -6.262)
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,12.0f));
+        val adapter = MyEventsAdapter(this,title,picture,lat,long,mMap)
+        val lv = findViewById<ListView>(R.id.MyEventList) as ListView;
+        lv.adapter = adapter;
     }
 }
