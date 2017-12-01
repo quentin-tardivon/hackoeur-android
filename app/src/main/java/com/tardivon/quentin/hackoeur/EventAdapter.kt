@@ -17,7 +17,7 @@ class EventAdapter(val events: ArrayList<Event>, val itemClick: (Event) -> Unit)
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder!!.bindForecast(events[position])
+        holder!!.bindEvent(events[position])
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +26,7 @@ class EventAdapter(val events: ArrayList<Event>, val itemClick: (Event) -> Unit)
 
 
     class ViewHolder(view: View, val itemClick: (Event) -> Unit): RecyclerView.ViewHolder(view) {
-        fun bindForecast(event: Event) {
+        fun bindEvent(event: Event) {
             with(event) {
                 itemView.eventName.text = event.name
                 itemView.eventDate.text = event.date
