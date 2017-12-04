@@ -29,7 +29,7 @@
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map2"
+            android:id="@+id/MyEventMap"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -38,11 +38,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:layout_weight="2"
-            app:layout_constraintBottom_toTopOf="@+id/list"
+            app:layout_constraintBottom_toTopOf="@+id/MyEventList"
             tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
         <ListView
-            android:id="@+id/list"
+            android:id="@+id/MyEventList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
