@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_event_list.*
+import kotlinx.android.synthetic.main.fragment_event_list.*
 
 
 /**
@@ -21,9 +21,49 @@ import kotlinx.android.synthetic.main.activity_event_list.*
  * create an instance of this fragment.
  */
 class EventListFragment : Fragment() {
-    
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val view: View = inflater!!.inflate(R.layout.fragment_event_list, container, false)
+
+        createFirebaseListener()
+
+        return view
+    }
+
+
+    private fun createFirebaseListener() {
+        val postListener = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val toReturn: ArrayList<Event> = ArrayList()
+
+                for (data in dataSnapshot.children) {
+                    val eventData = data.getValue(Event::class.java)
+
+                    val event = eventData?.let { it }?: continue
+
+                    toReturn.add(event)
+                }
+
+                setupAdapter(toReturn)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //log error
+            }
+        }
+        (activity as MainActivity).databaseReference?.child("events")?.addValueEventListener(postListener)
+    }
+
+    private fun setupAdapter(data: ArrayList<Event>){
+        val linearLayoutManager = LinearLayoutManager(this.activity)
+        eventListActivityRecyclerView.layoutManager = linearLayoutManager
+        eventListActivityRecyclerView.adapter = EventAdapter(data) {
+            Toast.makeText(this.activity, "${it.name} clicked", Toast.LENGTH_SHORT).show()
+        }
+
+        //scroll to bottom
+        eventListActivityRecyclerView.scrollToPosition(data.size - 1)
     }
 
 
