@@ -51,7 +51,7 @@ class EventListFragment : Fragment() {
                 //log error
             }
         }
-        (activity as MainActivity).databaseReference?.child("events")?.addValueEventListener(postListener)
+        (activity as MainActivity).databaseReference?.child("Events")?.addValueEventListener(postListener)
     }
 
     private fun setupAdapter(data: ArrayList<Event>){

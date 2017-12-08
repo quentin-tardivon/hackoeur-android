@@ -55,7 +55,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         month_x=cal.get(Calendar.MONTH)
         day_x=cal.get(Calendar.DAY_OF_MONTH)
         mStorage = FirebaseStorage.getInstance().reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Event")
+        databaseReference = FirebaseDatabase.getInstance().getReference("Events")
         val id = databaseReference?.push()?.key
         eventName = findViewById<View>(R.id.createeditText7) as EditText
         description = findViewById<View>(R.id.createeditText8) as EditText
@@ -96,7 +96,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
             val event = Event(name as String, eventDescription as String, location as String , dat as String, time as String)
 
-            databaseReference!!.child("Events").child(id1).setValue(event)
+            databaseReference!!.child(id1).setValue(event)
             Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
 
         } else

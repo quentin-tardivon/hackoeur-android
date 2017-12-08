@@ -16,6 +16,8 @@ class Event {
     var time: String? = null
         internal set
 
+    constructor()
+
     constructor(name: String, description: String, location: String, date: String,time: String) {
         this.name = name
         this.description = description
