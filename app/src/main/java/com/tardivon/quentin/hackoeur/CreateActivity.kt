@@ -18,32 +18,31 @@ import com.google.firebase.storage.StorageReference
 import java.util.*
 import com.google.android.gms.location.places.ui.PlacePicker
 import android.widget.Toast
-import com.google.android.gms.location.places.Place
 
 class CreateActivity : AppCompatActivity(), View.OnClickListener {
     var databaseReference: DatabaseReference? = null
 
-    internal var Event_name: EditText? = null
-    internal var description: EditText?=null
+    private var eventName: EditText? = null
+    private var description: EditText? = null
 
-    internal var create_location: EditText?=null
-    internal var loc: String?=null
-    internal var name: String?=null
-    internal var Event_description: String?=null
-    internal var Image: Button?=null
-    internal var textview3: TextView?=null
-    internal var create: Button?=null
-    internal var textview: TextView?=null
-    internal var textview2: TextView?=null
-    internal var year_x: Int = 0
-    internal var month_x: Int = 0
-    internal var day_x: Int = 0
-    internal var hour_x: Int = 0
-    internal var minute_x: Int = 0
-    internal var time: String ?=null
-    internal var dat: String?=null
-    internal var cal = Calendar.getInstance()
-    internal var id1: String ?=null
+    private var createLocation: EditText? = null
+    private var location: String? = null
+    private var name: String? = null
+    private var eventDescription: String? = null
+    private var imageButton: Button? = null
+    private var textview3: TextView? = null
+    private var create: Button? = null
+    private var textview: TextView? = null
+    private var textview2: TextView? = null
+    private var year_x: Int = 0
+    private var month_x: Int = 0
+    private var day_x: Int = 0
+    private var hour_x: Int = 0
+    private var minute_x: Int = 0
+    private var time: String ? = null
+    private var dat: String? = null
+    private var cal = Calendar.getInstance()
+    private var id1: String ? = null
     private var mStorage: StorageReference? = null
 
 
@@ -58,7 +57,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         mStorage = FirebaseStorage.getInstance().reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Event")
         val id = databaseReference?.push()?.key
-        Event_name = findViewById<View>(R.id.createeditText7) as EditText
+        eventName = findViewById<View>(R.id.createeditText7) as EditText
         description = findViewById<View>(R.id.createeditText8) as EditText
 
         textview = findViewById<View>(R.id.textView) as TextView
@@ -66,10 +65,10 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         textview!!.setOnClickListener{ showDialog(CreateActivity.DIALOG_ID) }
         textview2!!.setOnClickListener{ showDialog(CreateActivity.DIALOG_ID1) }
         create = findViewById<View>(R.id.button2) as Button
-        create_location = findViewById<View>(R.id.createeditText9) as EditText
+        createLocation = findViewById<View>(R.id.createeditText9) as EditText
         textview3 = findViewById<View>(R.id.textView3) as TextView
-        Image = findViewById<View>(R.id.Createbutton3) as Button
-        Image!!.setOnClickListener {
+        imageButton = findViewById<View>(R.id.Createbutton3) as Button
+        imageButton!!.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent,GALLERY_INTENT)
@@ -77,7 +76,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
 
 
-        create_location!!.setOnClickListener {
+        createLocation!!.setOnClickListener {
 
             val builder = PlacePicker.IntentBuilder()
 
@@ -87,15 +86,15 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        name = Event_name!!.text.toString().trim { it <= ' ' }
-        Event_description = description!!.text.toString().trim { it <= ' ' }
-        loc = create_location!!.text.toString().trim { it <= ' ' }
+        name = eventName!!.text.toString().trim { it <= ' ' }
+        eventDescription = description!!.text.toString().trim { it <= ' ' }
+        location = createLocation!!.text.toString().trim { it <= ' ' }
 
 
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(Event_description) && !TextUtils.isEmpty(loc)) {
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(eventDescription) && !TextUtils.isEmpty(location)) {
 
 
-            val event = createEvent(name as String, Event_description as String, loc as String , dat as String, time as String)
+            val event = Event(name as String, eventDescription as String, location as String , dat as String, time as String)
 
             databaseReference!!.child("Events").child(id1).setValue(event)
             Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
@@ -148,7 +147,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                  val toastMsg = String.format("%s", place.address)
                 val location_name= placename+","+toastMsg
 
-                create_location!!.setText(location_name)
+                createLocation!!.setText(location_name)
                 Toast.makeText(this, location_name , Toast.LENGTH_LONG).show()
             }
         }

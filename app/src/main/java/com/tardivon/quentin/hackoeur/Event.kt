@@ -5,17 +5,23 @@ package com.tardivon.quentin.hackoeur
  */
 class Event {
 
-    var name: String? = null
+    var name: String? =null
+        internal set
+    var description: String?=null
+        internal set
+    var location: String? =null
+        internal set
     var date: String? = null
-    var location: String? = null
+        internal set
+    var time: String? = null
+        internal set
 
-
-    constructor()
-
-    constructor(name: String, date: String, location: String) {
+    constructor(name: String, description: String, location: String, date: String,time: String) {
         this.name = name
-        this.date = date
+        this.description = description
         this.location = location
+        this.date = date
+        this.time = time
     }
 
 }
