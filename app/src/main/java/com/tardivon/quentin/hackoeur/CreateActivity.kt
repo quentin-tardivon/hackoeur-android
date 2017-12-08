@@ -11,8 +11,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import com.google.firebase.FirebaseApp
-
-
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,10 +19,6 @@ import java.util.*
 import com.google.android.gms.location.places.ui.PlacePicker
 import android.widget.Toast
 import com.google.android.gms.location.places.Place
-
-
-
-
 
 class CreateActivity : AppCompatActivity(), View.OnClickListener {
     var databaseReference: DatabaseReference? = null
