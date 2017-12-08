@@ -5,12 +5,16 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Logger
+import android.view.MenuInflater
+import android.view.MenuItem
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
         var fbAuth = FirebaseAuth.getInstance()
         var fbUser = fbAuth.currentUser
 
@@ -57,7 +63,25 @@ class MainActivity : AppCompatActivity() {
         }) //Don't forget to use removeOnTabSelectedListener
     }
 
-    fun signOut(view: View) {
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.signout -> {
+                signOut()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    fun signOut() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this, SignInActivity::class.java))
     }
