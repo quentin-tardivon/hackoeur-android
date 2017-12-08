@@ -11,14 +11,6 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [EventListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [EventListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EventListFragment : Fragment() {
 
 
