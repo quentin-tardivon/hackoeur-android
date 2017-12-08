@@ -2,8 +2,10 @@ package com.tardivon.quentin.hackoeur
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,12 +22,9 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_events)
-        //val adapter = MyEventsAdapter(this,title,picture,lat,long)
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.MyEventMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        //val lv = findViewById<ListView>(R.id.list1) as ListView;
-        //lv.adapter = adapter;
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -36,10 +35,14 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
             val sydney = LatLng(lat[i], long[i])
             mMap.addMarker(MarkerOptions().position(sydney).title(title[i]))
         }
-        val sydney = LatLng(53.348, -6.262)
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,12.0f));
+        val startinglocation = LatLng(53.348, -6.262)
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f));
         val adapter = MyEventsAdapter(this,title,picture,lat,long,mMap)
         val lv = findViewById<ListView>(R.id.MyEventList) as ListView;
         lv.adapter = adapter;
+        lv.setClickable(true)
+        lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
+            Toast.makeText(this,"Position Clicked:"+" "+i, Toast.LENGTH_SHORT).show()
+        }
     }
 }
