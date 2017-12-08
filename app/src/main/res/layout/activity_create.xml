@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tardivon.quentin.hackoeur.CreateActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="18dp"
+            android:text="Event Name"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/createeditText7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView5"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_below="@+id/textView5"
+            android:layout_marginTop="18dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/createeditText7"
+            android:layout_alignStart="@+id/createeditText7"
+            android:layout_below="@+id/createeditText7"
+            android:layout_marginTop="18dp"
+            android:text="Event Description"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/createeditText8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_alignStart="@+id/textView"
+            android:layout_below="@+id/textView6"
+            android:layout_marginTop="21dp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/createeditText8"
+            android:layout_alignStart="@+id/createeditText8"
+            android:layout_below="@+id/createeditText8"
+            android:layout_marginTop="18dp"
+            android:text="Location"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/createeditText9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_alignStart="@+id/textView7"
+            android:layout_below="@+id/textView7"
+            android:layout_marginTop="13dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginBottom="27dp"
+            android:text="Create Event " />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignEnd="@+id/textView5"
+            android:layout_below="@+id/createeditText9"
+            android:layout_marginTop="32dp"
+            android:autoLink="none"
+            android:backgroundTint="@color/primaryColor"
+            android:backgroundTintMode="screen"
+            android:clickable="true"
+            android:contextClickable="false"
+            android:cursorVisible="false"
+            android:text="Select Date" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_alignStart="@+id/button2"
+            android:layout_marginStart="12dp"
+            android:clickable="true"
+            android:text="Select Time" />
+
+        <Button
+            android:id="@+id/Createbutton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/createeditText9"
+            android:layout_below="@+id/textView"
+            android:layout_marginTop="18dp"
+            android:background="@color/primaryColor"
+            android:backgroundTintMode="multiply"
+            android:text="Upload Image"
+            tools:backgroundTintMode="screen"
+            tools:text="Upload Image" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="192dp"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/Createbutton3"
+            android:layout_alignBottom="@+id/Createbutton3"
+            android:layout_alignStart="@+id/textView2"
+            tools:layout_editor_absoluteX="138dp"
+            tools:layout_editor_absoluteY="386dp" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

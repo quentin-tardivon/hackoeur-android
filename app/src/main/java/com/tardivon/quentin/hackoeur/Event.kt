@@ -9,6 +9,7 @@ class Event {
     var date: String? = null
     var location: String? = null
 
+
     constructor()
 
     constructor(name: String, date: String, location: String) {
