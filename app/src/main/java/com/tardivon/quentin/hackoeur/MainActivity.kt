@@ -8,12 +8,9 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Logger
-import android.view.MenuInflater
 import android.view.MenuItem
 
 
@@ -24,12 +21,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        databaseReference = FirebaseDatabase.getInstance().reference
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         var fbAuth = FirebaseAuth.getInstance()
         var fbUser = fbAuth.currentUser
 
-        initFirebase()
+
 
 
         if (fbUser == null) {
@@ -84,16 +82,6 @@ class MainActivity : AppCompatActivity() {
     fun signOut() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this, SignInActivity::class.java))
-    }
-
-    private fun initFirebase() {
-        //init firebase
-        FirebaseApp.initializeApp(this.applicationContext)
-
-        FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG)
-
-        //get reference to our db
-        databaseReference = FirebaseDatabase.getInstance().reference
     }
 
 
