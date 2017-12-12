@@ -98,6 +98,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
             databaseReference!!.child(id1).setValue(event)
             Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, MainActivity::class.java))
 
         } else
             Toast.makeText(this, "Please fill all the details", Toast.LENGTH_SHORT).show()

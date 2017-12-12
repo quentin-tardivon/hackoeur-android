@@ -9,9 +9,8 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import android.view.MenuItem
+import com.google.firebase.database.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         if (fbUser == null) {
             startActivity(Intent(this, SignInActivity::class.java))
         }
+
+        val uid = fbUser!!.uid
+        val email = fbUser.email
+
+        addUid(uid, email)
 
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
 
@@ -74,6 +78,10 @@ class MainActivity : AppCompatActivity() {
                 signOut()
                 return true
             }
+            R.id.create_event -> {
+                startActivity(Intent(this, CreateActivity::class.java))
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -82,6 +90,10 @@ class MainActivity : AppCompatActivity() {
     fun signOut() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this, SignInActivity::class.java))
+    }
+
+    fun addUid(uid: String, email: String?) {
+        databaseReference!!.child("Users").child(uid).setValue(email)
     }
 
 
