@@ -9,6 +9,7 @@ Application developed for the CS385 project at Maynooth University, Ireland, by:
 - Luc Dupuis
 - Quentin Tardivon
 - Ragul Sankar
+- Asmita Belle
 
 Design developed for the PD309 project Maynooth University, Ireland, by:
 - Quentin Tardivon
