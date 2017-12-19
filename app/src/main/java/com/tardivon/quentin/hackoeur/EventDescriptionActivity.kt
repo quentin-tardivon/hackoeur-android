@@ -13,6 +13,6 @@ class EventDescriptionActivity : AppCompatActivity() {
         this.eventDate.text = event.date
         this.eventName.text = event.name
         this.eventLocation.text = event.location
-
+        this.eventDescription.text = event.description
     }
 }

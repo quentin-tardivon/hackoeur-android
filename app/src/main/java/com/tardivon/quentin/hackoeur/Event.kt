@@ -27,7 +27,7 @@ class Event() : Parcelable {
         time = parcel.readString()
     }
 
-    constructor(name: String, description: String, location: String, date: String,time: String) : this() {
+    constructor(name: String, description: String, location: String, date: String, time: String) : this() {
         this.name = name
         this.description = description
         this.location = location
