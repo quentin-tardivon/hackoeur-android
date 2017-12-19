@@ -1,9 +1,12 @@
 package com.tardivon.quentin.hackoeur
 
+import android.os.Parcel
+import android.os.Parcelable
+
 /**
  * Created by quentin on 11/13/17.
  */
-class Event {
+class Event() : Parcelable {
 
     var name: String? =null
         internal set
@@ -16,14 +19,44 @@ class Event {
     var time: String? = null
         internal set
 
-    constructor()
+    constructor(parcel: Parcel) : this() {
+        name = parcel.readString()
+        description = parcel.readString()
+        location = parcel.readString()
+        date = parcel.readString()
+        time = parcel.readString()
+    }
 
-    constructor(name: String, description: String, location: String, date: String,time: String) {
+    constructor(name: String, description: String, location: String, date: String,time: String) : this() {
         this.name = name
         this.description = description
         this.location = location
         this.date = date
         this.time = time
     }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(name)
+        parcel.writeString(description)
+        parcel.writeString(location)
+        parcel.writeString(date)
+        parcel.writeString(time)
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Event> {
+        override fun createFromParcel(parcel: Parcel): Event {
+            return Event(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Event?> {
+            return arrayOfNulls(size)
+        }
+    }
+
 
 }

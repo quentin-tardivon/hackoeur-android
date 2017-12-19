@@ -183,8 +183,8 @@ else{
            TextView peoplegoing=(TextView) findViewById(R.id.textView8);
            TextView hostedby=(TextView) findViewById(R.id.textView6);
 
-           Eventss eventss=new Eventss();
-           Clients clients=new Clients();
+           Eventss eventss = new Eventss();
+           Clients clients = new Clients();
            eventss.setEventday(eventSnapShot.child(id).getValue(Eventss.class).getEventday());
            eventss.setEventmonth(eventSnapShot.child(id).getValue(Eventss.class).getEventmonth());
            eventss.setEventyear(eventSnapShot.child(id).getValue(Eventss.class).getEventyear());

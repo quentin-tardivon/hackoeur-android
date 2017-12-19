@@ -1,6 +1,8 @@
 package com.tardivon.quentin.hackoeur
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -50,7 +52,8 @@ class EventListFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(this.activity)
         eventListActivityRecyclerView.layoutManager = linearLayoutManager
         eventListActivityRecyclerView.adapter = EventAdapter(data) {
-            Toast.makeText(this.activity, "${it.name} clicked", Toast.LENGTH_SHORT).show()
+            val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", it)
+            startActivity(intent)
         }
 
         //scroll to bottom
