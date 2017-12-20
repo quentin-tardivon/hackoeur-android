@@ -50,7 +50,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         val startinglocation = LatLng(53.348, -6.262)
         mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f));
         val adapter = MyEventsAdapter(this.activity ,title,picture, lat, long, mMap as GoogleMap)
-        val lv = this.rootView!!.findViewById<ListView>(R.id.MyEventList) as ListView
+        val lv = rootView!!.findViewById<ListView>(R.id.MyEventList) as ListView
         lv.adapter = adapter;
         lv.setClickable(true)
         lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
