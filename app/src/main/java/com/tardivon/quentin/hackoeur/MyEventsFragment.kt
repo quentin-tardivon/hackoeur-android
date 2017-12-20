@@ -2,6 +2,7 @@ package com.tardivon.quentin.hackoeur
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     var mMapView: MapView? = null
     var rootView: View? = null
     private var mMap: GoogleMap? = null
-    val title = arrayOf("test","test2","test3","test4");
+    val title = arrayOf("test","test2","test3","tesetetstststs");
     val picture = arrayOf(R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background);
     val lat = arrayOf(53.346760,53.347349,53.334999,53.344364)
     val long = arrayOf(-6.2287331,-6.2390542,-6.2285614,-6.2389684)
@@ -32,9 +33,8 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
 
         mMapView = rootView!!.findViewById(R.id.mapView) as MapView
         mMapView!!.onCreate(savedInstanceState)
-
         mMapView!!.onResume()
-
+        mMapView!!.getMapAsync(this);
         MapsInitializer.initialize(activity.applicationContext);
         return rootView
     }
