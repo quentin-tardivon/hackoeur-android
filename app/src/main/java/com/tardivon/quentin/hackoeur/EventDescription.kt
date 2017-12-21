@@ -71,7 +71,7 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
                 mRef = database!!.reference
                 val id = mRef.key
                 val eventss = Eventss()
-                eventss.setCount(eventSnapShot.child("-L-7-hYZN7w9ZnDeuLfz").getValue(Eventss::class.java)!!.getCount())
+                eventss.count = (eventSnapShot.child("-L-7-hYZN7w9ZnDeuLfz").getValue(Eventss::class.java)!!.count)
                 val count = eventss.count
                 var countp = Integer.parseInt(count)
                 countp = countp + 1
@@ -87,7 +87,7 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
             val peoplegoing = findViewById<View>(R.id.textView8) as TextView
             for (eventSnapShot in datasnapshot.children) {
                 val eventss = Eventss()
-                eventss.setCount(eventSnapShot.child("-L-7-hYZN7w9ZnDeuLfz").getValue(Eventss::class.java)!!.getCount())
+                eventss.count = eventSnapShot.child("-L-7-hYZN7w9ZnDeuLfz").getValue(Eventss::class.java)!!.count
                 val count = eventss.count
                 var countp = Integer.parseInt(count)
                 countp = countp - 1
@@ -178,17 +178,17 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
 
             val eventss = Eventss()
             val clients = Clients()
-            eventss.setEventday(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventday())
-            eventss.setEventmonth(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventmonth())
-            eventss.setEventyear(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventyear())
-            eventss.setEventname(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventname())
-            eventss.setEventlocation(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventlocation())
-            eventss.setEventdescription(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventdescription())
-            eventss.setCount(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getCount())
-            eventss.setEventhour(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventhour())
-            eventss.setEventmin(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventmin())
-            eventss.setClientId(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getClientId())
-            eventss.setEventImage(eventSnapShot.child(id).getValue(Eventss::class.java)!!.getEventImage())
+            eventss.eventday = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventday
+            eventss.eventmonth = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventmonth
+            eventss.eventyear = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventyear
+            eventss.eventname= eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventname
+            eventss.eventlocation =eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventlocation
+            eventss.eventdescription =eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventdescription
+            eventss.count = eventSnapShot.child(id).getValue(Eventss::class.java)!!.count
+            eventss.eventhour =eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventhour
+            eventss.eventmin =eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventmin
+            eventss.clientId =eventSnapShot.child(id).getValue(Eventss::class.java)!!.clientId
+            eventss.eventImage =eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventImage
 
 
 
