@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="584dp"
-        android:layout_height="640dp"
+        android:layout_height="540dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
@@ -28,7 +28,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
     </LinearLayout>
 
 </FrameLayout>
