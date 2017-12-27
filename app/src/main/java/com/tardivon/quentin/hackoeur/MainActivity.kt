@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
 
         tabLayout.addTab(tabLayout.newTab().setText("Feed"))
-        tabLayout.addTab(tabLayout.newTab().setText("Friend"))
+        tabLayout.addTab(tabLayout.newTab().setText("Friends"))
         tabLayout.addTab(tabLayout.newTab().setText("My Events"))
 
         val viewPager = findViewById<ViewPager>(R.id.pager)
@@ -88,7 +88,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addUid(uid: String?, email: String?) {
-        databaseReference!!.child("Users").child(uid).setValue(email)
+        databaseReference!!.child("Users").child(uid).child("email").setValue(email)
+        databaseReference!!.child("Users").child(uid).child("uid").setValue(uid)
     }
 
 

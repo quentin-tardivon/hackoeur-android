@@ -1,7 +1,5 @@
 package com.tardivon.quentin.hackoeur
 
-import android.content.Context
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,18 +20,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
-
-import java.io.InputStream
 
 class EventDescription : AppCompatActivity(), OnMapReadyCallback {
     private var database: FirebaseDatabase? = null
@@ -76,8 +69,8 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
                 var countp = Integer.parseInt(count)
                 countp = countp + 1
                 peoplegoing.setText(countp)
-                mRef.child("Clients").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").push()
-                mRef.child("Clients").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").child("eventId").push().setValue("-L-7-hYZN7w9ZnDeuLfz")
+                mRef.child("User").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").push()
+                mRef.child("User").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").child("eventId").push().setValue("-L-7-hYZN7w9ZnDeuLfz")
                 mRef.child("Eventss").child("-L-7-hYZN7w9ZnDeuLfz").child("clients").child("dhglklw8").push()
                 mRef.child("Eventss").child("-L-7-hYZN7w9ZnDeuLfz").child("clients").child("dhglklw8").child("eventId").push().setValue("dhglklw8")
                 mRef.child("Eventss").child("-L-7-hYZN7w9ZnDeuLfz").child("count").setValue(countp)
@@ -93,75 +86,13 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
                 countp = countp - 1
                 peoplegoing.setText(countp)
                 mRef.child("Eventss").child("-L-7-hYZN7w9ZnDeuLfz").child("count").setValue(countp)
-                mRef.child("Clients").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").removeValue()
+                mRef.child("User").child("dhglklw8").child("events").child("-L-7-hYZN7w9ZnDeuLfz").removeValue()
                 mRef.child("Eventss").child("-L-7-hYZN7w9ZnDeuLfz").child("clients").child("dhglklw8").removeValue()
             }
         }
 
     }
 
-    /* @Override
-    protected void onStart() {
-        super.onStart();
-
-
-        mRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                TextView datetime=(TextView) findViewById(R.id.textView2);
-                TextView location=(TextView) findViewById(R.id.textView4);
-                TextView nameofevent=(TextView) findViewById(R.id.textView);
-                TextView description=(TextView) findViewById(R.id.textView10);
-                System.out.println(dataSnapshot.getValue());
-               // Map<String,Object> value = (Map<String, Object>) dataSnapshot.getValue();
-                for(DataSnapshot eventSnapshot: dataSnapshot.getChildren()){
-
-
-                    Eventss eve=eventSnapshot.getValue(Eventss.class);
-                    String day=eve.eventday;
-                    String month=eve.eventmonth;
-                    String year=eve.eventyear;
-                    String locations=eve.eventlocation;
-                    location.setText(locations);
-                    datetime.setText(day+"/"+month+"/"+year);
-
-                }
-
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }*/
-    /* @GlideModule
-   public class MyAppGlideModule extends AppGlideModule {
-
-       @Override
-       public void registerComponents(Context context, Glide glide, Registry registry) {
-           // Register FirebaseImageLoader to handle StorageReference
-           registry.append(StorageReference.class, InputStream.class,
-                   new FirebaseImageLoader.Factory());
-       }
-   }*/
     private fun showData(dataSnapshot: DataSnapshot) {
         // mRef=FirebaseDatabase.getInstance().getReference("Eventss");
         for (eventSnapShot in dataSnapshot.child("Eventss").children) {
@@ -177,7 +108,6 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
             val hostedby = findViewById<View>(R.id.textView6) as TextView
 
             val eventss = Eventss()
-            val clients = Clients()
             eventss.eventday = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventday
             eventss.eventmonth = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventmonth
             eventss.eventyear = eventSnapShot.child(id).getValue(Eventss::class.java)!!.eventyear
@@ -203,9 +133,8 @@ class EventDescription : AppCompatActivity(), OnMapReadyCallback {
             /* Glide.with(this)
                    .load(image)
                    .into(mImageView);*/
-            val client = eventss.clientId
-            clients.clientEmail = dataSnapshot.child(client).getValue(Clients::class.java)!!.clientEmail
-            val clientemail = clients.clientEmail
+            val user = eventss.clientId
+            val clientemail = dataSnapshot.child(user).getValue(User::class.java)!!.email
             val month = eventss.eventmonth
             val year = eventss.eventyear
             val name = eventss.eventname
