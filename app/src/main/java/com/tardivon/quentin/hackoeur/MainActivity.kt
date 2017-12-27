@@ -26,17 +26,12 @@ class MainActivity : AppCompatActivity() {
         var fbAuth = FirebaseAuth.getInstance()
         var fbUser = fbAuth.currentUser
 
-
-
-
         if (fbUser == null) {
             startActivity(Intent(this, SignInActivity::class.java))
+            return
         }
 
-        val uid = fbUser!!.uid
-        val email = fbUser.email
-
-        addUid(uid, email)
+        addUid(fbUser!!.uid, fbUser!!.email)
 
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
 
@@ -92,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, SignInActivity::class.java))
     }
 
-    fun addUid(uid: String, email: String?) {
+    fun addUid(uid: String?, email: String?) {
         databaseReference!!.child("Users").child(uid).setValue(email)
     }
 

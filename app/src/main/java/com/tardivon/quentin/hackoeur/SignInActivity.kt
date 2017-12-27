@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import com.google.android.gms.auth.api.Auth
 import android.widget.Toast
@@ -66,9 +67,12 @@ class SignInActivity : AppCompatActivity() {
     }
 
     fun signIn(view: View) {
-        Toast.makeText(this@SignInActivity, "Click",
-                Toast.LENGTH_SHORT).show()
         val signInIntent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    fun createAccount(view: View) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://accounts.google.com/SignUp?hl=en-GB"))
+        startActivity(browserIntent)
     }
 }
