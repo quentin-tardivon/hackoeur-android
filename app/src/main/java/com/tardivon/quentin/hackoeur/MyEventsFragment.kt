@@ -13,6 +13,10 @@ import android.widget.Toast
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.GoogleMap
+import android.R.attr.label
+import android.net.Uri
 
 
 /**
@@ -48,6 +52,16 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         for(i in lat.indices) {
             val sydney = LatLng(lat[i], long[i])
             mMap!!.addMarker(MarkerOptions().position(sydney).title(title[i]))
+            mMap!!.setOnMarkerClickListener { marker ->
+                val uriBegin = "geo:"+ lat[i].toString() + ","+ long[i].toString()
+                val query = lat[i].toString() + ","+ long[i].toString()+"("+title[i]+")"
+                val encodedQuery = Uri.encode(query)
+                val uriString = uriBegin + "?q=" + encodedQuery
+                val uri = Uri.parse(uriString)
+                val intent = Intent(android.content.Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+                true
+            };
         }
         val startinglocation = LatLng(53.348, -6.262) //hard coded location to be in Dublin
         mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f));
