@@ -20,9 +20,6 @@ import android.net.Uri
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 
-
-
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -76,7 +73,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         //Populate the list of event with the data stored in the arrays
         val adapter = MyEventsAdapter(this.activity ,title,picture, lat, long, mMap as GoogleMap)
         val lv = rootView!!.findViewById<ListView>(R.id.MyEventList) as ListView
-        lv.adapter = adapter;
+        lv.adapter = adapter
 
         //add a onClickListener to the list
         lv.setClickable(true)
