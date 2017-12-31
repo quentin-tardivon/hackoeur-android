@@ -2,7 +2,6 @@ package com.tardivon.quentin.hackoeur
 
 import android.os.Parcel
 import android.os.Parcelable
-
 /**
  * Created by quentin on 11/13/17.
  */
@@ -17,6 +16,8 @@ class Event() : Parcelable {
     var date: String? = null
         internal set
     var time: String? = null
+    internal set
+    var locationGPS: LatLng? = null
         internal set
 
     constructor(parcel: Parcel) : this() {
@@ -35,13 +36,21 @@ class Event() : Parcelable {
         this.time = time
     }
 
+    constructor(name: String, description: String, location: String, date: String, time: String, locationGPS: LatLng) : this() {
+        this.name = name
+        this.description = description
+        this.location = location
+        this.date = date
+        this.time = time
+        this.locationGPS = locationGPS
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeString(location)
         parcel.writeString(date)
         parcel.writeString(time)
-
     }
 
     override fun describeContents(): Int {

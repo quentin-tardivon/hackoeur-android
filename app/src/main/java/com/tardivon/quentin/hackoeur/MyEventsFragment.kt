@@ -19,6 +19,9 @@ import android.R.attr.label
 import android.net.Uri
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 /**
  * A simple [Fragment] subclass.
@@ -29,21 +32,42 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     var rootView: View? = null
     private var mMap: GoogleMap? = null
     // remove this code later
-    val title = arrayOf("test","test2","test3","tesetetstststs");
-    val picture = arrayOf(R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background);
-    val lat = arrayOf(53.346760,53.347349,53.334999,53.344364)
-    val long = arrayOf(-6.2287331,-6.2390542,-6.2285614,-6.2389684)
+    var titles = mutableListOf("test")
+    var pictures = mutableListOf(R.drawable.ic_launcher_background)
+    var lat = mutableListOf(53.346760)
+    var long = mutableListOf(-6.2287331)
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater!!.inflate(R.layout.fragment_my_events, container, false)
 
+        val postListener = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (data in dataSnapshot.children) {
+                    val eventData = data.getValue(Event::class.java)
+
+                    val event = eventData?.let { it }?: continue
+
+                    titles.add(event.name!!)
+                    pictures.add(R.drawable.ic_launcher_background)
+                    lat.add(event.locationGPS!!.lat!!)
+                    long.add(event.locationGPS!!.lng!!)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                //log error
+            }
+        }
+        (activity as MainActivity).databaseReference?.child("Events")?.addValueEventListener(postListener)
+
         //code used to initiate the google map on the fragment
         mMapView = rootView!!.findViewById<MapView>(R.id.mapView) as MapView
         mMapView!!.onCreate(savedInstanceState)
         mMapView!!.onResume()
-        mMapView!!.getMapAsync(this);
-        MapsInitializer.initialize(activity.applicationContext);
+        mMapView!!.getMapAsync(this)
+        MapsInitializer.initialize(activity.applicationContext)
         return rootView
     }
 
@@ -54,7 +78,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         for(i in lat.indices) {
             //create marker
             val marker = LatLng(lat[i], long[i])
-            val googleMarker = mMap!!.addMarker(MarkerOptions().position(marker).title(title[i])) as Marker
+            val googleMarker = mMap!!.addMarker(MarkerOptions().position(marker).title(titles[i])) as Marker
             mMap!!.setOnInfoWindowClickListener(OnInfoWindowClickListener { marker ->
                 //when clicking the information window for a mapmarker open location in google maps
                      val uriBegin = "geo:"+ marker.position.latitude.toString() + ","+  marker.position.longitude.toString()
@@ -71,8 +95,8 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f)); //set the zoom function to be in dublin
 
         //Populate the list of event with the data stored in the arrays
-        val adapter = MyEventsAdapter(this.activity ,title,picture, lat, long, mMap as GoogleMap)
-        val lv = rootView!!.findViewById<ListView>(R.id.MyEventList) as ListView
+        val adapter = MyEventsAdapter(this.activity ,titles.toTypedArray(),pictures.toTypedArray(), lat.toTypedArray(), long.toTypedArray(), mMap as GoogleMap)
+        val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
         lv.adapter = adapter
 
         //add a onClickListener to the list

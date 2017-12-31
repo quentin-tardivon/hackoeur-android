@@ -40,10 +40,11 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
     private var hour_x: Int = 0
     private var minute_x: Int = 0
     private var time: String ? = null
-    private var dat: String? = null
+    private var date: String? = null
     private var cal = Calendar.getInstance()
     private var id1: String ? = null
     private var mStorage: StorageReference? = null
+    var locationGPS: LatLng? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,9 +95,10 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(eventDescription) && !TextUtils.isEmpty(location)) {
 
 
-            val event = Event(name as String, eventDescription as String, location as String , dat as String, time as String)
+            val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng)
 
-            databaseReference!!.child(id1).setValue(event)
+            val key = databaseReference!!.push().key
+            databaseReference!!.child(key).setValue(event)
             Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
             startActivity(Intent(this, MainActivity::class.java))
 
@@ -107,8 +109,8 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         year_x = i
         month_x = i1+1
         day_x = i2
-        dat=day_x.toString() +"/" + month_x +"/"+year_x;
-        textview!!.setText(dat)
+        date = day_x.toString() +"/" + month_x +"/"+year_x;
+        textview!!.setText(date)
         Toast.makeText(this@CreateActivity, year_x.toString() + "/" + month_x + "/" + day_x, Toast.LENGTH_LONG).show()
     }
 
@@ -128,12 +130,12 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
         Toast.makeText(this@CreateActivity, hour_x.toString() + " : " + minute_x, Toast.LENGTH_LONG).show()
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CreateActivity.GALLERY_INTENT && resultCode == Activity.RESULT_OK) {
             val id = databaseReference?.push()?.key
             id1=id
-            val uri = data.data
+            val uri = data?.data
             val filepath = mStorage!!.child("Photos").child(id!!).child(uri!!.lastPathSegment)
             textview3!!.setText("Uploading....")
             filepath.putFile(uri).addOnSuccessListener {
@@ -141,18 +143,18 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this@CreateActivity, "Upload Done. ", Toast.LENGTH_LONG).show() }
 
         }
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                val place = PlacePicker.getPlace(data, this)
-                val placename = String.format("%s", place.name)
-                 val toastMsg = String.format("%s", place.address)
-                val location_name= placename+","+toastMsg
-
-                createLocation!!.setText(location_name)
-                Toast.makeText(this, location_name , Toast.LENGTH_LONG).show()
-            }
+        else if (requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
+            val place = PlacePicker.getPlace(data, this)
+            val placename = String.format("%s", place.name)
+            val toastMsg = String.format("%s", place.address)
+            val location_name= placename+","+toastMsg
+            locationGPS = LatLng(place.latLng.latitude, place.latLng.longitude)
+            createLocation!!.setText(location_name)
+            Toast.makeText(this, location_name , Toast.LENGTH_LONG).show()
         }
+        else if (resultCode == Activity.RESULT_CANCELED) {
 
+        }
     }
 
 
