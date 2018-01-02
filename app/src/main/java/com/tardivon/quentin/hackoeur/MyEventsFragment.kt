@@ -33,15 +33,13 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     // remove this code later
     var myEvents =mutableListOf<Event>()
-    //var titles = mutableListOf("test")
     var pictures = mutableListOf(R.drawable.ic_launcher_background)
-    //var lat = mutableListOf(53.346760)
-    //var long = mutableListOf(-6.2287331)
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater!!.inflate(R.layout.fragment_my_events, container, false)
-
+        myEvents.clear()
+        pictures.clear()
         val postListener = object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -74,36 +72,37 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
 
         //loop to create all map markers for event and set the on MapMarkerClick function
-        for(i in myEvents.indices) {
+        for (i in myEvents.indices) {
             //create marker
             val marker = LatLng(myEvents[i].locationGPS!!.lat!!, myEvents[i].locationGPS!!.lng!!)
             val googleMarker = mMap!!.addMarker(MarkerOptions().position(marker).title(myEvents[i].name!!)) as Marker
             mMap!!.setOnInfoWindowClickListener(OnInfoWindowClickListener { marker ->
                 //when clicking the information window for a mapmarker open location in google maps
-                     val uriBegin = "geo:"+ marker.position.latitude.toString() + ","+  marker.position.longitude.toString()
-                     val query =  marker.position.latitude.toString() + ","+  marker.position.longitude.toString()+"("+marker.title+")"
-                     val encodedQuery = Uri.encode(query)
-                     val uriString = uriBegin + "?q=" + encodedQuery
-                     val uri = Uri.parse(uriString)
-                     val intent = Intent(android.content.Intent.ACTION_VIEW, uri)
-                     startActivity(intent)
+                val uriBegin = "geo:" + marker.position.latitude.toString() + "," + marker.position.longitude.toString()
+                val query = marker.position.latitude.toString() + "," + marker.position.longitude.toString() + "(" + marker.title + ")"
+                val encodedQuery = Uri.encode(query)
+                val uriString = uriBegin + "?q=" + encodedQuery
+                val uri = Uri.parse(uriString)
+                val intent = Intent(android.content.Intent.ACTION_VIEW, uri)
+                startActivity(intent)
             })
         }
 
         val startinglocation = LatLng(53.348, -6.262) //hard coded location to be in Dublin
-        mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f)); //set the zoom function to be in dublin
+        mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation, 12.0f)); //set the zoom function to be in dublin
 
         //Populate the list of event with the data stored in the arrays
-        val adapter = MyEventsAdapter(this.activity ,myEvents.toTypedArray(),pictures.toTypedArray(), mMap as GoogleMap)
-        val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
-        lv.adapter = adapter
+            val adapter = MyEventsAdapter(this.activity, myEvents.toTypedArray(), pictures.toTypedArray(), mMap as GoogleMap)
+            val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
+            lv.adapter = adapter
 
-        //add a onClickListener to the list
-        lv.setClickable(true)
-        lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
-            val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", myEvents[i])
-            startActivity(intent)
-        }
+            //add a onClickListener to the list
+            lv.setClickable(true)
+            lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
+                val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", myEvents[i])
+                startActivity(intent)
+
+            }
     }
 
 }// Required empty public constructor
