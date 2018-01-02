@@ -36,9 +36,9 @@ class MyEventsActivity : AppCompatActivity(), OnMapReadyCallback{
         }
         val startinglocation = LatLng(53.348, -6.262)
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f));
-        val adapter = MyEventsAdapter(this,title,picture,lat,long,mMap)
+        //val adapter = MyEventsAdapter(this,title,picture,lat,long,mMap)
         val lv = findViewById<ListView>(R.id.MyEventList) as ListView;
-        lv.adapter = adapter;
+       // lv.adapter = adapter;
         lv.setClickable(true)
         lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
             Toast.makeText(this,"Position Clicked:"+" "+i, Toast.LENGTH_SHORT).show()

@@ -32,10 +32,11 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     var rootView: View? = null
     private var mMap: GoogleMap? = null
     // remove this code later
-    var titles = mutableListOf("test")
+    var myEvents =mutableListOf<Event>()
+    //var titles = mutableListOf("test")
     var pictures = mutableListOf(R.drawable.ic_launcher_background)
-    var lat = mutableListOf(53.346760)
-    var long = mutableListOf(-6.2287331)
+    //var lat = mutableListOf(53.346760)
+    //var long = mutableListOf(-6.2287331)
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,10 +50,8 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
 
                     val event = eventData?.let { it }?: continue
 
-                    titles.add(event.name!!)
+                    myEvents.add(event)
                     pictures.add(R.drawable.ic_launcher_background)
-                    lat.add(event.locationGPS!!.lat!!)
-                    long.add(event.locationGPS!!.lng!!)
                 }
             }
 
@@ -75,10 +74,10 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
 
         //loop to create all map markers for event and set the on MapMarkerClick function
-        for(i in lat.indices) {
+        for(i in myEvents.indices) {
             //create marker
-            val marker = LatLng(lat[i], long[i])
-            val googleMarker = mMap!!.addMarker(MarkerOptions().position(marker).title(titles[i])) as Marker
+            val marker = LatLng(myEvents[i].locationGPS!!.lat!!, myEvents[i].locationGPS!!.lng!!)
+            val googleMarker = mMap!!.addMarker(MarkerOptions().position(marker).title(myEvents[i].name!!)) as Marker
             mMap!!.setOnInfoWindowClickListener(OnInfoWindowClickListener { marker ->
                 //when clicking the information window for a mapmarker open location in google maps
                      val uriBegin = "geo:"+ marker.position.latitude.toString() + ","+  marker.position.longitude.toString()
@@ -95,16 +94,15 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation,12.0f)); //set the zoom function to be in dublin
 
         //Populate the list of event with the data stored in the arrays
-        val adapter = MyEventsAdapter(this.activity ,titles.toTypedArray(),pictures.toTypedArray(), lat.toTypedArray(), long.toTypedArray(), mMap as GoogleMap)
+        val adapter = MyEventsAdapter(this.activity ,myEvents.toTypedArray(),pictures.toTypedArray(), mMap as GoogleMap)
         val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
         lv.adapter = adapter
 
         //add a onClickListener to the list
         lv.setClickable(true)
         lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
-            Toast.makeText(this.context,"Position Clicked:"+" "+i, Toast.LENGTH_SHORT).show()
-            val changePage = Intent(this.context,EventDescriptionActivity::class.java)
-            startActivity(changePage)
+            val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", myEvents[i])
+            startActivity(intent)
         }
     }
 
