@@ -100,6 +100,8 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
             lv.setClickable(true)
             lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
                 val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", myEvents[i])
+                intent.putExtra("lat", myEvents[i].locationGPS!!.lat!!)
+                intent.putExtra("lng", myEvents[i].locationGPS!!.lng!!)
                 startActivity(intent)
 
             }

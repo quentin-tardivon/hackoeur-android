@@ -51,6 +51,8 @@ class EventListFragment : Fragment() {
         eventListActivityRecyclerView.layoutManager = linearLayoutManager
         eventListActivityRecyclerView.adapter = EventAdapter(data) {
             val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", it)
+            intent.putExtra("lat", it.locationGPS!!.lat!!)
+            intent.putExtra("lng", it.locationGPS!!.lng!!)
             startActivity(intent)
         }
 
