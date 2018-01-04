@@ -11,13 +11,15 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import com.google.firebase.FirebaseApp
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
 import com.google.android.gms.location.places.ui.PlacePicker
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+
 
 class CreateActivity : AppCompatActivity(), View.OnClickListener {
     var databaseReference: DatabaseReference? = null
@@ -44,6 +46,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
     private var cal = Calendar.getInstance()
     private var id1: String ? = null
     private var mStorage: StorageReference? = null
+    var users = mutableListOf<String>()
     var locationGPS: LatLng? = null
 
 
@@ -94,11 +97,31 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(eventDescription) && !TextUtils.isEmpty(location)) {
 
-
-            val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng)
-
+            val user_uid = FirebaseAuth.getInstance().currentUser!!.uid
+            users.add(user_uid)
+            val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng,users as MutableList<String>)
             val key = databaseReference!!.push().key
             databaseReference!!.child(key).setValue(event)
+          FirebaseDatabase.getInstance().getReference("Users").orderByChild("uid").equalTo(user_uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError?) {
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot?) {
+                    val user = snapshot!!.child(user_uid).getValue(User::class.java)
+                    val test = user!!.eventList.toString() as String?
+                    if (test == "null")
+                    {
+                        var myEvents = mutableListOf<String>()
+                        myEvents.add(key)
+                        user!!.eventList= myEvents
+                    }
+                    else
+                    {
+                        user!!.eventList!!.add(key)
+                    }
+                    FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("eventList").setValue(user!!.eventList)
+                 }
+            })
             Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
             startActivity(Intent(this, MainActivity::class.java))
 
@@ -156,7 +179,6 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
         }
     }
-
 
     companion object {
         internal val DIALOG_ID = 0

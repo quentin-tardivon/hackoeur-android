@@ -13,11 +13,18 @@ class User() {
         internal set
     var uid: String? = null
         internal set
-
+    var eventList: MutableList<String>? =null
+        internal set
     constructor(email: String, uid: String): this() {
         this.email = email
         this.uid = uid
     }
+    constructor(email: String, uid: String,eventlist: MutableList<String>): this() {
+        this.email = email
+        this.uid = uid
+        this.eventList = eventlist
+    }
+
 }
 
 
