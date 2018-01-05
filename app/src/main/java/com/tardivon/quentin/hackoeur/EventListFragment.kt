@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_event_list.*
+import android.support.v4.view.ViewCompat.setNestedScrollingEnabled
+import android.support.v7.widget.RecyclerView
+
+
 
 
 class EventListFragment : Fragment() {
@@ -56,8 +60,6 @@ class EventListFragment : Fragment() {
             startActivity(intent)
         }
 
-        //scroll to bottom
-        eventListActivityRecyclerView.scrollToPosition(data.size - 1)
     }
 
 
