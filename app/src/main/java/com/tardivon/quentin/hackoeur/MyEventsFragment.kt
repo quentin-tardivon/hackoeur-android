@@ -31,10 +31,9 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     var mMapView: MapView? = null
     var rootView: View? = null
     private var mMap: GoogleMap? = null
-    // remove this code later
     var myEvents =mutableListOf<Event>()
     var pictures = mutableListOf(R.drawable.ic_launcher_background)
-
+    var keys = mutableListOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater!!.inflate(R.layout.fragment_my_events, container, false)
@@ -47,7 +46,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
                     val eventData = data.getValue(Event::class.java)
 
                     val event = eventData?.let { it }?: continue
-
+                    keys.add(data.key)
                     myEvents.add(event)
                     pictures.add(R.drawable.ic_launcher_background)
                 }
@@ -102,6 +101,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
                 val intent: Intent = Intent(this.context, EventDescriptionActivity::class.java).putExtra("event", myEvents[i])
                 intent.putExtra("lat", myEvents[i].locationGPS!!.lat!!)
                 intent.putExtra("lng", myEvents[i].locationGPS!!.lng!!)
+                intent.putExtra("key", keys[i])
                 startActivity(intent)
 
             }

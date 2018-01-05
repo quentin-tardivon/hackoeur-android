@@ -121,7 +121,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                         user!!.eventList!!.add(key)
                     }
                     FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("eventList").setValue(user!!.eventList)
-                    test()
+                    ReturnToMainActivity()
                  }
             })
 
@@ -180,7 +180,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun test()
+    fun ReturnToMainActivity()
     {
         Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
