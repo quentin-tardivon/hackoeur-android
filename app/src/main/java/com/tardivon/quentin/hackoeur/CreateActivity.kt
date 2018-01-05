@@ -102,14 +102,15 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
             val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng,users as MutableList<String>)
             val key = databaseReference!!.push().key
             databaseReference!!.child(key).setValue(event)
-          FirebaseDatabase.getInstance().getReference("Users").orderByChild("uid").equalTo(user_uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            FirebaseDatabase.getInstance().getReference("Users").orderByChild("uid").equalTo(user_uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError?) {
+                println("Error")
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot?) {
                     val user = snapshot!!.child(user_uid).getValue(User::class.java)
                     val test = user!!.eventList.toString() as String?
-                    if (test == "null")
+                   if (test == "null")
                     {
                         var myEvents = mutableListOf<String>()
                         myEvents.add(key)
@@ -120,10 +121,9 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                         user!!.eventList!!.add(key)
                     }
                     FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("eventList").setValue(user!!.eventList)
+                    test()
                  }
             })
-            Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, MainActivity::class.java))
 
         } else
             Toast.makeText(this, "Please fill all the details", Toast.LENGTH_SHORT).show()
@@ -180,6 +180,11 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    fun test()
+    {
+        Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
+        startActivity(Intent(this, MainActivity::class.java))
+    }
     companion object {
         internal val DIALOG_ID = 0
         internal val DIALOG_ID1 = 1
