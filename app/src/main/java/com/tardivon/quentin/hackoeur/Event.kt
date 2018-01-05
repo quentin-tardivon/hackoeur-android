@@ -21,12 +21,15 @@ class Event() : Parcelable {
         internal set
     var registeredUsers: MutableList<String>? =null
             internal set
+    var imgId: String? =null
+        internal set
     constructor(parcel: Parcel) : this() {
         name = parcel.readString()
         description = parcel.readString()
         location = parcel.readString()
         date = parcel.readString()
         time = parcel.readString()
+        imgId = parcel.readString()
     }
 
     constructor(name: String, description: String, location: String, date: String, time: String) : this() {
@@ -55,12 +58,25 @@ class Event() : Parcelable {
         this.locationGPS = locationGPS
         this.registeredUsers = UsersId
     }
+
+    constructor(name: String, description: String, location: String, date: String, time: String, locationGPS: LatLng, UsersId: MutableList<String>, imgId: String) : this() {
+        this.name = name
+        this.description = description
+        this.location = location
+        this.date = date
+        this.time = time
+        this.locationGPS = locationGPS
+        this.registeredUsers = UsersId
+        this.imgId = imgId
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeString(location)
         parcel.writeString(date)
         parcel.writeString(time)
+        parcel.writeString(imgId)
     }
 
     override fun describeContents(): Int {

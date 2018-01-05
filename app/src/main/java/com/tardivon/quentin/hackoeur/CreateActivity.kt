@@ -48,6 +48,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
     private var mStorage: StorageReference? = null
     var users = mutableListOf<String>()
     var locationGPS: LatLng? = null
+    var pictureId: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +100,7 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
 
             val user_uid = FirebaseAuth.getInstance().currentUser!!.uid
             users.add(user_uid)
-            val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng,users as MutableList<String>)
+            val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng, users, pictureId as String)
             val key = databaseReference!!.push().key
             databaseReference!!.child(key).setValue(event)
             FirebaseDatabase.getInstance().getReference("Users").orderByChild("uid").equalTo(user_uid).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -121,7 +122,10 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                         user!!.eventList!!.add(key)
                     }
                     FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("eventList").setValue(user!!.eventList)
-                    ReturnToMainActivity()
+                    if (pictureId != null) {
+                        FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("pictureId").setValue(pictureId)
+                    }
+                    createdEvent()
                  }
             })
 
@@ -154,16 +158,16 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         Toast.makeText(this@CreateActivity, hour_x.toString() + " : " + minute_x, Toast.LENGTH_LONG).show()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CreateActivity.GALLERY_INTENT && resultCode == Activity.RESULT_OK) {
-            val id = databaseReference?.push()?.key
-            id1=id
+            pictureId = databaseReference?.push()?.key
             val uri = data?.data
-            val filepath = mStorage!!.child("Photos").child(id!!).child(uri!!.lastPathSegment)
+            val filepath = mStorage!!.child("Photos").child(pictureId!!)
             textview3!!.setText("Uploading....")
-            filepath.putFile(uri).addOnSuccessListener {
-                textview3!!.setText("Uploaded")
-                Toast.makeText(this@CreateActivity, "Upload Done. ", Toast.LENGTH_LONG).show() }
+            if (uri != null) {
+                filepath.putFile(uri).addOnSuccessListener {
+                    textview3!!.setText("Uploaded")
+                    Toast.makeText(this@CreateActivity, "Upload Done. ", Toast.LENGTH_LONG).show() }
+            }
 
         }
         else if (requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -180,7 +184,8 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun ReturnToMainActivity()
+
+    fun createdEvent()
     {
         Toast.makeText(this, "Event created Successfully",Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
