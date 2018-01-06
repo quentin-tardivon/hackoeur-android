@@ -42,9 +42,9 @@ class EventAdapter(val events: ArrayList<Event>, val itemClick: (Event) -> Unit)
         fun bindEvent(event: Event) {
             with(event) {
 
-                itemView.eventName.text = event.name
-                itemView.eventDate.text = event.date
-                itemView.eventLocation.text = event.location
+                itemView.eventName.text = "Event Name: " + event.name
+                itemView.eventDate.text = "Date: "+ event.date
+                itemView.eventLocation.text = "Location: "+ event.location
                 if (event.imgId != null) {
                     val riversRef = storageRef.child("Photos/" + event.imgId)
                     val localFile = File.createTempFile("images", "jpg")
