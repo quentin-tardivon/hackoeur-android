@@ -32,13 +32,11 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
     var rootView: View? = null
     private var mMap: GoogleMap? = null
     var myEvents =mutableListOf<Event>()
-    var pictures = mutableListOf(R.drawable.ic_launcher_background)
     var keys = mutableListOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater!!.inflate(R.layout.fragment_my_events, container, false)
         myEvents.clear()
-        pictures.clear()
         val postListener = object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -48,7 +46,6 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
                     val event = eventData?.let { it }?: continue
                     keys.add(data.key)
                     myEvents.add(event)
-                    pictures.add(R.drawable.ic_launcher_background)
                 }
             }
 
@@ -91,7 +88,7 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
         mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(startinglocation, 12.0f)); //set the zoom function to be in dublin
 
         //Populate the list of event with the data stored in the arrays
-            val adapter = MyEventsAdapter(this.activity, myEvents.toTypedArray(), pictures.toTypedArray(), mMap as GoogleMap)
+            val adapter = MyEventsAdapter(this.activity, myEvents.toTypedArray(), mMap as GoogleMap)
             val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
             lv.adapter = adapter
 
