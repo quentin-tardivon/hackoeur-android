@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_event_description.*
 import java.io.File
 
-class MyEventsAdapter(private val context: Activity, private val events : Array<Event>, private val mMap: GoogleMap)// TODO Auto-generated constructor stub
+class MyEventsAdapter(private val context: Activity, private val events : Array<Event>, private val mMap: GoogleMap)
     : ArrayAdapter<Event>(context, R.layout.my_event_list_layout, events) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
@@ -30,10 +30,14 @@ class MyEventsAdapter(private val context: Activity, private val events : Array<
         val extratxt = rowView.findViewById<View>(R.id.EventListText) as TextView
         val eventbutton = rowView.findViewById<View>(R.id.ButtonMyEvent) as Button
         extratxt.text = events[position].name
+
+        // set button on click listener to move to the corresponding marker
         eventbutton.setOnClickListener {
            val sydney = LatLng(events[position].locationGPS!!.lat!!, events[position].locationGPS!!.lng!!)
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,14.0f));
         }
+
+        // get image for the event if it exist
         if (events[position].imgId != null) {
             val riversRef = storageRef.child("Photos/" + events[position]!!.imgId)
             val localFile = File.createTempFile("images", "jpg")
@@ -44,12 +48,11 @@ class MyEventsAdapter(private val context: Activity, private val events : Array<
                     }).addOnFailureListener(OnFailureListener {
                 // Handle failed download
             })
-
         }
         else
-        {
-            imageView.setImageResource(R.drawable.ic_launcher_background)
-        }
+            {
+            imageView.setImageResource(R.drawable.g_logo)
+            }
         return rowView
     }
 }

@@ -70,7 +70,8 @@ class EventDescriptionActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 override fun onDataChange(snapshot: DataSnapshot?) {
                     val event = snapshot!!.getValue(Event::class.java)
-                    val NullCheck = event!!.registeredUsers.toString() as String?
+                   //check if the event has any registed user
+                     val NullCheck = event!!.registeredUsers.toString() as String?
                     if (NullCheck == "null")
                     {
                         var EmptyList = mutableListOf<String>()
@@ -82,10 +83,12 @@ class EventDescriptionActivity : AppCompatActivity(), OnMapReadyCallback {
                     else
                     {
                         if (event!!.registeredUsers!!.contains(user_uid!!)) {
+                           //unsubcribe
                             event!!.registeredUsers!!.remove(user_uid!!)
                             updateEvent(event)
                             participateButton.text = "Subscribe"
                         } else {
+                            //subscribe
                             event!!.registeredUsers!!.add(user_uid!!)
                             updateEvent(event)
                             participateButton.text = "UnSubscribe"
@@ -101,6 +104,7 @@ class EventDescriptionActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 override fun onDataChange(snapshot: DataSnapshot?) {
                     val user = snapshot!!.getValue(User::class.java)
+                   // check if the user has any other subscrition
                     val NullCheck = user!!.eventList.toString() as String?
                     if (NullCheck == "null")
                     {
@@ -112,9 +116,11 @@ class EventDescriptionActivity : AppCompatActivity(), OnMapReadyCallback {
                     else
                     {
                         if (user!!.eventList!!.contains(eventKey!!)) {
+                            //unsubscribe
                             user!!.eventList!!.remove(eventKey!!)
                             updateUser(user)
                         } else {
+                            //subscribe
                             user!!.eventList!!.add(eventKey!!)
                             updateUser(user)
                         }
@@ -132,17 +138,23 @@ class EventDescriptionActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    //function needed due to async firebase call
     fun updateEvent(event : Event)
     {
         FirebaseDatabase.getInstance().getReference("Events").child(eventKey).setValue(event!!)
     }
 
+
+    //function needed due to async firebase call
     fun updateUser(user : User)
     {
         FirebaseDatabase.getInstance().getReference("Users").child(user_uid).setValue(user!!)
     }
+
+    //function to set the button text when the function is create
     fun setParticipateButtonText()
     {
+
         FirebaseDatabase.getInstance().getReference("Events").child(eventKey).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) {
                 println("Error")

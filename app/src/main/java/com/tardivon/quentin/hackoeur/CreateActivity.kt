@@ -19,6 +19,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+
+
 
 
 class CreateActivity : AppCompatActivity(), View.OnClickListener {
@@ -59,8 +63,8 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         year_x=cal.get(Calendar.YEAR)
         month_x=cal.get(Calendar.MONTH)
         day_x=cal.get(Calendar.DAY_OF_MONTH)
-        mStorage = FirebaseStorage.getInstance().reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Events")
+        mStorage = FirebaseStorage.getInstance().reference //Used for Picture storage
+        databaseReference = FirebaseDatabase.getInstance().getReference("Events") //Database reference
         val id = databaseReference?.push()?.key
         eventName = findViewById<View>(R.id.createeditText7) as EditText
         description = findViewById<View>(R.id.createeditText8) as EditText
@@ -80,38 +84,45 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
         }
 
 
+        //Open Place Picker
+        createLocation!!.setOnTouchListener(OnTouchListener { v, event ->
+            if (MotionEvent.ACTION_UP == event.action)
+            {
+                val builder = PlacePicker.IntentBuilder()
 
-        createLocation!!.setOnClickListener {
-
-            val builder = PlacePicker.IntentBuilder()
-
-            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
-        }
+                startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
+            }
+                false
+        })
         create!!.setOnClickListener(this)
     }
 
+    //The onClick function for the create event button
     override fun onClick(view: View) {
+        //get
         name = eventName!!.text.toString().trim { it <= ' ' }
         eventDescription = description!!.text.toString().trim { it <= ' ' }
         location = createLocation!!.text.toString().trim { it <= ' ' }
 
-
+        //Ensure that the name, description and location fields are not null.
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(eventDescription) && !TextUtils.isEmpty(location)) {
 
+            //create the event in the database
             val user_uid = FirebaseAuth.getInstance().currentUser!!.uid
             users.add(user_uid)
             val event = Event(name as String, eventDescription as String, location as String , date as String, time as String, locationGPS as LatLng, users, pictureId as String)
             val key = databaseReference!!.push().key
             databaseReference!!.child(key).setValue(event)
+            //update the user to include the event
             FirebaseDatabase.getInstance().getReference("Users").orderByChild("uid").equalTo(user_uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError?) {
                 println("Error")
                 }
-
                 override fun onDataChange(snapshot: DataSnapshot?) {
                     val user = snapshot!!.child(user_uid).getValue(User::class.java)
-                    val test = user!!.eventList.toString() as String?
-                   if (test == "null")
+                    //check to make if this is the first event
+                    val nullcheck = user!!.eventList.toString() as String?
+                    if (nullcheck == "null")
                     {
                         var myEvents = mutableListOf<String>()
                         myEvents.add(key)
@@ -122,16 +133,13 @@ class CreateActivity : AppCompatActivity(), View.OnClickListener {
                         user!!.eventList!!.add(key)
                     }
                     FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("eventList").setValue(user!!.eventList)
-                    if (pictureId != null) {
-                        FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("pictureId").setValue(pictureId)
-                    }
                     createdEvent()
                  }
             })
-
         } else
             Toast.makeText(this, "Please fill all the details", Toast.LENGTH_SHORT).show()
     }
+
     private val dpickerListener = DatePickerDialog.OnDateSetListener { datePicker, i, i1, i2 ->
         year_x = i
         month_x = i1+1

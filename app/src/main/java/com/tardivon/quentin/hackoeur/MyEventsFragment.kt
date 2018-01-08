@@ -48,7 +48,6 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
                     myEvents.add(event)
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 //log error
             }
@@ -66,7 +65,6 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         //loop to create all map markers for event and set the on MapMarkerClick function
         for (i in myEvents.indices) {
             //create marker
@@ -91,7 +89,6 @@ class MyEventsFragment : Fragment(), OnMapReadyCallback {
             val adapter = MyEventsAdapter(this.activity, myEvents.toTypedArray(), mMap as GoogleMap)
             val lv = rootView!!.findViewById(R.id.MyEventList) as ListView
             lv.adapter = adapter
-
             //add a onClickListener to the list
             lv.setClickable(true)
             lv.onItemClickListener = AdapterView.OnItemClickListener { adapter, activity_main, i, l ->
