@@ -51,13 +51,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                // TODO
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // TODO
+
             }
-        }) //Don't forget to use removeOnTabSelectedListener
+        })
     }
 
 

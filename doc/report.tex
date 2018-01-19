@@ -1,0 +1,111 @@
+\documentclass[a4paper,11pt, oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{etoolbox}
+\usepackage{color}
+\usepackage[explicit,pagestyles]{titlesec}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{fancyhdr}
+\usepackage{fontspec}
+\usepackage{eurosym}
+\usepackage{titlesec}
+\usepackage[]{algorithm2e}
+
+
+% ====== CONFIG ========
+
+\graphicspath{{img/}}
+\setlength{\unitlength}{1mm}
+\makeatletter
+
+\definecolor{primary}{RGB}{44, 62, 80}
+
+
+\titleformat{\chapter}[display]{\huge}{\thechapter \quad #1}{0pt}{}
+\titlespacing{\chapter}{0pt}{0pt}{0pt}
+
+\titleformat{\section}[display]{\LARGE}{}{0pt}{\thesection \quad #1}
+
+
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\def\sizeMedia{38}
+\def\size{3.8cm}
+\def\sizeMargin{0.2cm}
+\def\margin{2}
+\def\fixMargin{0}
+
+\pagestyle{plain}
+
+\author{Luc Dupuis, Quentin Tardivon, Ragul Sankar, Asmita Belle}
+\date{\today}
+
+\def\school{Maynooth University}
+\def\schoolAddress{Maynooth, Co. Kildare}
+\def\schoolYear{2017}
+
+\def\appName{Hackoeur Android}
+\def\widthImage{1}
+\def\todo{{\color{red}\Huge{TODO}}}
+
+% ====== END CONFIG ========
+
+
+\begin{document}
+
+	\begin{titlepage}
+		\input{cover}
+	\end{titlepage}
+
+
+	\newpage\newpage\null\thispagestyle{empty}
+	\newpage
+		\tableofcontents
+		\thispagestyle{empty}
+
+
+	\chapter{Introduction}
+	\setcounter{page}{1}
+
+	\chapter{Design}
+
+		\section{Design}
+
+	\chapter{Implementation}
+
+		\section{Splash Screen}
+
+		We use the splashscreen to initialize our Firebase Services. As soon as the services are loaded 
+		we are launching the Main Activity.
+
+		\section{Login Page}
+		
+		At the first app launch, the MainActivity is launching the Logging Screen and ask the user 
+		to Log In with a Google Account. If the user does not have a Google Account, there is a button 
+		which open a Web Page to create a Google Account. 
+	\section{Main Activity}
+
+		\subsection{Event List}	
+
+		\subsection{Friends List}
+
+		\subsection{My Events}
+
+		\section{Create Event}
+
+		\section{Event Description}
+
+
+	\chapter{Conclusion}
+
+	\chapter{Bibliography}
+
+\end{document}
